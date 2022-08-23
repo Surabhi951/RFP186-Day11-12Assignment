@@ -6,6 +6,10 @@ public class Account {
     Scanner sc = new Scanner(System.in);
     double balance;
 
+    public Account() {
+
+    }
+
     public Account(double balance) {
         super();
         this.balance = balance;
