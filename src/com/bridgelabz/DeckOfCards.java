@@ -1,76 +1,66 @@
 package com.bridgelabz;
 
+import java.util.Random;
+
 public class DeckOfCards {
-    static final String[] Suite =new String[]{"Clubs", "Diamonds", "Hearts", "Spades"};
-    static final String[] Rank =new String[]{"2", "3", "4", "5", "6", "7", "8","9", "10", "Jack", "Queen", "King", "Ace"};
-    static String [][] Cards=new String[4][13];
-    String[] player1Cards =new String[9];
-    String[] player2Cards =new String[9];
-    String[] player3Cards =new String[9];
-    String[] player4Cards =new String[9];
+    Card[] cards;
+    String[] suits = {"Club","Diamond", "Heart", "Spade"};
+    String[] ranks = {"2", "3", "4", "5", "6", "7", "8", "9", "10","Jack", "Queen", "King", "Ace"};
+    public DeckOfCards(){
+        cards = initializeCards();
+    }
+    public Card[] initializeCards(){
+        Card[] cards = new Card[52];
+        int cardIndex = 0;
+        for (String suit : suits) {
+            for (String rank : ranks) {
+                cards[cardIndex] = new Card(suit, rank);
+                cardIndex++;
+            }
+        }
+        return cards;
+    }
 
-    public static void main(String[] args) {
-        DeckOfCards deck=new DeckOfCards();
-        deck.initializeDeck();
-        deck.shuffleCards();
-        deck.distributeCards();
-        System.out.print("Player#1 cards: ");
-        deck.printCards(deck.player1Cards);
-        System.out.print("Player#2 cards: ");
-        deck.printCards(deck.player2Cards);
-        System.out.print("Player#3 cards: ");
-        deck.printCards(deck.player3Cards);
-        System.out.print("Player#4 cards: ");
-        deck.printCards(deck.player4Cards);
+    public void shuffle(Card[] cards){
+        Random random = new Random();
+        Card card;
+        for(int i = 0; i < 52; i++){
+            int index = random.nextInt(52);
+            int index2 = random.nextInt(52);
+            card = cards[index];
+            cards[index] = cards[index2];
+            cards[index2] = card;
+        }
     }
-    void initializeDeck(){
-        for (int i = 0; i < Suite.length; i++) {
-            for (int j = 0; j < Rank.length; j++) {
-                Cards[i][j]=(Suite[i]+"-"+Rank[j]);
+    public void distributeCards(Card[][] players){
+        int playersIndex = 0;
+        shuffle(this.cards);
+        for(int i = 0; i < players.length; i++){
+            for(int j = 0; j < players[i].length; j++){
+                players[i][j] = cards[playersIndex];
+                playersIndex++;
             }
         }
     }
-    void shuffleCards(){
-        for (int i = 0; i < Cards.length; i++) {
-            for (int j = 0; j < Cards[i].length; j++) {
-                int x= (int) (Math.random()*10%4);
-                int y= (int) (Math.random()*10%13);
-                String temp=Cards[i][j];
-                Cards[i][j]=Cards[x][y];
-                Cards[x][y]=temp;
+    public void print(Card[][] players){
+        for(int i = 0; i < players.length; i++){
+            System.out.print("Player" + (i+1) + " Cards: ");
+            for(int j = 0; j < players[i].length; j++){
+                System.out.print(players[i][j].suit + "-" + players[i][j].rank + " ");
             }
+            System.out.println();
         }
     }
-    void distributeCards(){
-        int count = 0;
-        int index = 0;
-        for (String[] card : Cards) {
-            for (String s : card) {
-                if (count < 9) {
-                    player1Cards[index++] = s;
-                    count++;
-                    index = (index == 8) ? 0 : index;
-                } else if (count < 18) {
-                    player2Cards[index++] = s;
-                    count++;
-                    index = (index == 8) ? 0 : index;
-                } else if (count < 27) {
-                    player3Cards[index++] = s;
-                    count++;
-                    index = (index == 8) ? 0 : index;
-                } else if (count < 36) {
-                    player4Cards[index++] = s;
-                    count++;
-                    index = (index == 8) ? 0 : index;
-                }
-
-            }
-        }
-    }
-    void printCards(String []playerCards){
-        for (String card : playerCards) {
-            System.out.print(card + ", ");
+    public static void main(String[] args){
+        DeckOfCards deckOfCards = new DeckOfCards();
+        Card[][] players = new Card[4][9];
+        deckOfCards.distributeCards(players);
+        System.out.println("After Shuffle");
+        for(int i = 0; i < deckOfCards.cards.length; i++){
+            System.out.print(deckOfCards.cards[i].suit + "-" + deckOfCards.cards[i].rank + " ");
         }
         System.out.println();
+        System.out.println("Cards received by players");
+        deckOfCards.print(players);
     }
 }
