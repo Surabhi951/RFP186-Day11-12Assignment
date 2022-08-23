@@ -1,35 +1,41 @@
 package com.bridgelabz;
 
 public class Stock {
-    private String stockNames;
-    private Double numOfShare;
-    private Double sharePrice;
+    private  String stockName;
+    private int noOfShares;
+    private double sharePrice;
 
-    public Stock() {
-        super();
+    public Stock(){
+
     }
 
-    public String getStockNames() {
-        return stockNames;
+    public void setStockName(String stockName) {
+        this.stockName = stockName;
     }
 
-    public void setStockNames(String stockNames) {
-        this.stockNames = stockNames;
+    public int getNoOfShares() {
+        return noOfShares;
     }
 
-    public Double getNumOfShare() {
-        return numOfShare;
-    }
-
-    public void setNumOfShare(Double numOfShare) {
-        this.numOfShare = numOfShare;
-    }
-
-    public Double getSharePrice() {
+    public double getSharePrice() {
         return sharePrice;
     }
 
-    public void setSharePrice(Double sharePrice) {
+    public void setNoOfShares(int noOfShares) {
+        this.noOfShares = noOfShares;
+    }
+
+    public void setSharePrice(double sharePrice) {
         this.sharePrice = sharePrice;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Stock{" +
+                "stockName='" + stockName + '\'' +
+                ", noOfShares=" + noOfShares +
+                ", sharePrice=" + sharePrice +
+                '}';
     }
 }
